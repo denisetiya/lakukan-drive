@@ -135,3 +135,63 @@ check_disk_usage() {
         else
             info "Disk usage for backups: ${backup_usage}%"
         fi
+    fi
+    
+    if [ "$alert_sent" = true ]; then
+        return 1
+    fi
+    
+    return 0
+}
+
+check_service_health() {
+    local services_down=false
+    
+    if [ -f "$DEPLOY_DIR/docker-compose.prod.yml" ]; then
+        cd "$DEPLOY_DIR"
+        
+        # Check if services are running
+        if ! docker-compose -f docker-compose.prod.yml ps | grep -q "Up"; then
+            error "No services are running"
+            send_alert "No services are running" "CRITICAL"
+            services_down=true
+        else
+            # Check individual service health
+            local unhealthy_services
+            unhealthy_services=$(docker-compose -f docker-compose.prod.yml ps | grep -v "Up (healthy)" | grep "Up" | wc -l)
+            
+            if [ "$unhealthy_services" -gt 0 ]; then
+                warning "$unhealthy_services services are unhealthy"
+                send_alert "$unhealthy_services services are unhealthy" "WARNING"
+                services_down=true
+            else
+                info "All services are healthy"
+            fi
+        fi
+    else
+        warning "Docker Compose file not found"
+        services_down=true
+    fi
+    
+    if [ "$services_down" = true ]; then
+        return 1
+    fi
+    
+    return 0
+}
+
+check_mount_points() {
+    local mount_issues=false
+    
+    # Check if mount points are mounted
+    if mountpoint -q "/mnt/$PROJECT_NAME" 2>/dev/null; then
+        info "External mount point is mounted"
+    else
+        warning "External mount point is not mounted"
+        mount_issues=true
+    fi
+    
+    # Check if we can write to data directory
+    if [ -d "$DATA_DIR" ]; then
+        if ! touch "$DATA_DIR/.test_write" 2>/dev/null; then
+            error "Cannot write to data directory"
