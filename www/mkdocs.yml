@@ -1,10 +1,10 @@
 site_name: File Browser
 site_description: 'A web-based file browser and manager for your files'
-site_author: 'File Browser Contributors'
-site_url: 'https://filebrowser.org'
+site_author: 'Lakukan Drive Contributors'
+site_url: 'https://lakukandrive.com'
 
-repo_name: 'filebrowser/filebrowser'
-repo_url: 'https://github.com/filebrowser/filebrowser'
+repo_name: 'lakukandrive/lakukandrive'
+repo_url: 'https://github.com/lakukandrive/lakukandrive'
 
 copyright: 'Copyright &copy; 2025 File Browser Contributors'
 
@@ -88,9 +88,9 @@ extra:
   generator: false
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/filebrowser/filebrowser
+      link: https://github.com/lakukandrive/lakukandrive
     - icon: fontawesome/brands/docker
-      link: https://hub.docker.com/r/filebrowser/filebrowser
+      link: https://hub.docker.com/r/lakukandrive/lakukandrive
 
 nav:
   - Home: index.md
@@ -103,36 +103,36 @@ nav:
     - Troubleshooting: troubleshooting.md
     - Deployment: deployment.md
     - Command Line Usage:
-      - cli/filebrowser.md
-      - cli/filebrowser-cmds.md
-      - cli/filebrowser-cmds-add.md
-      - cli/filebrowser-cmds-ls.md
-      - cli/filebrowser-cmds-rm.md
-      - cli/filebrowser-completion.md
-      - cli/filebrowser-completion-bash.md
-      - cli/filebrowser-completion-fish.md
-      - cli/filebrowser-completion-powershell.md
-      - cli/filebrowser-completion-zsh.md
-      - cli/filebrowser-config.md
-      - cli/filebrowser-config-cat.md
-      - cli/filebrowser-config-export.md
-      - cli/filebrowser-config-import.md
-      - cli/filebrowser-config-init.md
-      - cli/filebrowser-config-set.md
-      - cli/filebrowser-hash.md
-      - cli/filebrowser-rules.md
-      - cli/filebrowser-rules-add.md
-      - cli/filebrowser-rules-ls.md
-      - cli/filebrowser-rules-rm.md
-      - cli/filebrowser-users.md
-      - cli/filebrowser-users-add.md
-      - cli/filebrowser-users-export.md
-      - cli/filebrowser-users-find.md
-      - cli/filebrowser-users-import.md
-      - cli/filebrowser-users-ls.md
-      - cli/filebrowser-users-rm.md
-      - cli/filebrowser-users-update.md
-      - cli/filebrowser-version.md
+      - cli/lakukandrive.md
+      - cli/lakukandrive-cmds.md
+      - cli/lakukandrive-cmds-add.md
+      - cli/lakukandrive-cmds-ls.md
+      - cli/lakukandrive-cmds-rm.md
+      - cli/lakukandrive-completion.md
+      - cli/lakukandrive-completion-bash.md
+      - cli/lakukandrive-completion-fish.md
+      - cli/lakukandrive-completion-powershell.md
+      - cli/lakukandrive-completion-zsh.md
+      - cli/lakukandrive-config.md
+      - cli/lakukandrive-config-cat.md
+      - cli/lakukandrive-config-export.md
+      - cli/lakukandrive-config-import.md
+      - cli/lakukandrive-config-init.md
+      - cli/lakukandrive-config-set.md
+      - cli/lakukandrive-hash.md
+      - cli/lakukandrive-rules.md
+      - cli/lakukandrive-rules-add.md
+      - cli/lakukandrive-rules-ls.md
+      - cli/lakukandrive-rules-rm.md
+      - cli/lakukandrive-users.md
+      - cli/lakukandrive-users-add.md
+      - cli/lakukandrive-users-export.md
+      - cli/lakukandrive-users-find.md
+      - cli/lakukandrive-users-import.md
+      - cli/lakukandrive-users-ls.md
+      - cli/lakukandrive-users-rm.md
+      - cli/lakukandrive-users-update.md
+      - cli/lakukandrive-version.md
   - Contributing:
     - Contributing: contributing.md
     - Code of Conduct: code-of-conduct.md

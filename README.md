@@ -1,30 +1,93 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/filebrowser/filebrowser/master/branding/banner.png" width="550"/>
-</p>
+# Lakukan Drive
 
-[![Build](https://github.com/filebrowser/filebrowser/actions/workflows/ci.yaml/badge.svg)](https://github.com/filebrowser/filebrowser/actions/workflows/ci.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/filebrowser/filebrowser/v2)](https://goreportcard.com/report/github.com/filebrowser/filebrowser/v2)
-[![Version](https://img.shields.io/github/release/filebrowser/filebrowser.svg)](https://github.com/filebrowser/filebrowser/releases/latest)
+Lakukan Drive provides a file managing interface within a specified directory and it can be used to upload, delete, preview and edit your files. It is a **create-your-own-cloud**-kind of software where you can just install it on your server, direct it to a path and access your files through a nice web interface.
 
-File Browser provides a file managing interface within a specified directory and it can be used to upload, delete, preview and edit your files. It is a **create-your-own-cloud**-kind of software where you can just install it on your server, direct it to a path and access your files through a nice web interface.
+## Features
+
+- 📁 **File Management**: Upload, delete, rename, move, and copy files
+- 👀 **File Preview**: Preview images, videos, documents, and more
+- ✏️ **File Editing**: Edit text files directly in the browser
+- 🔍 **Search**: Search through your files and folders
+- 👥 **User Management**: Multiple users with different permissions
+- 🔗 **File Sharing**: Share files and folders with links
+- 🌐 **Multi-language**: Support for multiple languages
+- 📱 **Responsive**: Works on desktop and mobile devices
 
 ## Documentation
 
-Documentation on how to install, configure, and contribute to this project is hosted at [filebrowser.org](https://filebrowser.org).
+Documentation on how to install, configure, and use Lakukan Drive is available in the project documentation.
 
-## Project Status
+## Project Structure
 
-This project is a finished product which fulfills its goal: be a single binary web File Browser which can be run by anyone anywhere. That means that File Browser is currently on **maintenance-only** mode. Therefore, please note the following:
+```
+.
+├── backend/                    # Go backend application
+│   ├── main.go                # Application entry point
+│   ├── cmd/                   # Command line interface
+│   ├── http/                  # HTTP handlers
+│   ├── auth/                  # Authentication
+│   ├── users/                 # User management
+│   ├── files/                 # File operations
+│   └── ...                   # Other backend modules
+├── frontend/                   # Vue.js frontend
+│   ├── src/                   # Source code
+│   ├── public/                # Static assets
+│   └── dist/                  # Built frontend
+├── docker/                     # Docker configurations
+├── www/                        # Documentation
+└── README.md                   # This file
+```
 
-- It can take a while until someone gets back to you. Please be patient.
-- [Issues](https://github.com/filebrowser/filebrowser/issues) are meant to track bugs. Unrelated issues will be converted into [discussions](https://github.com/filebrowser/filebrowser/discussions).
-- No new features will be implemented by maintainers. Pull requests for new features will be reviewed on a case by case basis.
-- The priority is triaging issues, addressing security issues and reviewing pull requests meant to solve bugs.
+## Quick Start
+
+### Using Docker
+
+```bash
+docker run -d \
+  -p 8080:80 \
+  -v /path/to/your/files:/srv \
+  lakukandrive/lakukandrive:latest
+```
+
+### Building from Source
+
+1. **Build Backend**:
+   ```bash
+   cd backend
+   go build -o lakukandrive .
+   ```
+
+2. **Build Frontend**:
+   ```bash
+   cd frontend
+   npm install
+   npm run build
+   ```
+
+3. **Run the Application**:
+   ```bash
+   ./backend/lakukandrive
+   ```
+
+## Configuration
+
+Lakukan Drive can be configured through:
+- Command line flags
+- Configuration file (JSON, YAML, or TOML)
+- Environment variables
+
+For detailed configuration options, see the documentation.
 
 ## Contributing
 
-Contributions are always welcome. To start contributing to this project, read our [guidelines](CONTRIBUTING.md) first.
+This is a private project. Contributions are only accepted from authorized team members.
 
 ## License
 
-[Apache License 2.0](LICENSE) © File Browser Contributors
+**Private License** © Lakukan Drive Team
+
+This project is proprietary software and may not be copied, modified, or distributed without explicit permission from the copyright holders.
+
+## Support
+
+For support and questions, please contact the Lakukan Drive team through internal channels.

@@ -8,12 +8,12 @@ RUN mkdir -p /config /database /srv && \
   chown -R abc:abc /config /database /srv
 
 # Copy files and set permissions
-COPY backend/filebrowser /bin/filebrowser
+COPY backend/lakukandrive /bin/lakukandrive
 COPY docker/common/ /
 COPY docker/s6/ /
 
-RUN chown -R abc:abc /bin/filebrowser /defaults healthcheck.sh && \
-  setcap 'cap_net_bind_service=+ep' /bin/filebrowser
+RUN chown -R abc:abc /bin/lakukandrive /defaults healthcheck.sh && \
+  setcap 'cap_net_bind_service=+ep' /bin/lakukandrive
 
 # Define healthcheck script
 HEALTHCHECK --start-period=2s --interval=5s --timeout=3s CMD /healthcheck.sh

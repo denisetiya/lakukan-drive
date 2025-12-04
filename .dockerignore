@@ -3,5 +3,5 @@ dist
 .idea
 frontend/node_modules
 frontend/dist
-filebrowser.db
+lakukandrive.db
 docs/index.md

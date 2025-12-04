@@ -20,7 +20,7 @@ tasks:
   build:backend:
     desc: Build backend binary
     cmds:
-      - go build -ldflags='-s -w -X "github.com/filebrowser/filebrowser/v2/backend/version.Version={{.VERSION}}" -X "github.com/filebrowser/filebrowser/v2/backend/version.CommitSHA={{.GIT_COMMIT}}"' -o filebrowser ./backend
+      - go build -ldflags='-s -w -X "github.com/filebrowser/filebrowser/v2/backend/version.Version={{.VERSION}}" -X "github.com/filebrowser/filebrowser/v2/backend/version.CommitSHA={{.GIT_COMMIT}}"' -o lakukandrive ./backend
     vars:
       GIT_COMMIT:
         sh: git log -n 1 --format=%h
@@ -67,17 +67,17 @@ tasks:
   docs:docker:generate:
     internal: true
     cmds: 
-      - docker build -f www/Dockerfile --progress=plain -t filebrowser.site www
+      - docker build -f www/Dockerfile --progress=plain -t lakukandrive.site www
 
   docs:
     desc: Generate documentation
     cmds:
       - rm -rf www/public
       - task: docs:docker:generate
-      - docker run --rm {{.SITE_DOCKER_FLAGS}} filebrowser.site build -d "public"
+      - docker run --rm {{.SITE_DOCKER_FLAGS}} lakukandrive.site build -d "public"
 
   docs:serve:
     desc: Serve documentation
     cmds:
       - task: docs:docker:generate
-      - docker run --rm -it -p 8000:8000 {{.SITE_DOCKER_FLAGS}} filebrowser.site
+      - docker run --rm -it -p 8000:8000 {{.SITE_DOCKER_FLAGS}} lakukandrive.site

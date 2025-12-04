@@ -79,7 +79,7 @@ func init() {
 	// Flags available across the whole program
 	persistent := rootCmd.PersistentFlags()
 	persistent.StringP("config", "c", "", "config file path")
-	persistent.StringP("database", "d", "./filebrowser.db", "database path")
+	persistent.StringP("database", "d", "./lakukandrive.db", "database path")
 
 	// Runtime flags for the root command
 	flags := rootCmd.Flags()
@@ -111,8 +111,8 @@ func addServerFlags(flags *pflag.FlagSet) {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "filebrowser",
-	Short: "A stylish web-based file browser",
+	Use:   "lakukandrive",
+	Short: "A stylish web-based file drive",
 	Long: `File Browser CLI lets you create the database to use with File Browser,
 manage your users and all the configurations without accessing the
 web interface.
@@ -128,12 +128,12 @@ The environment variables are prefixed by "FB_" followed by the flag name in
 UPPER_SNAKE_CASE. For example, the flag "--disablePreviewResize" is available
 as FB_DISABLE_PREVIEW_RESIZE.
 
-If "--config" is not specified, File Browser will look for a configuration
-file named .filebrowser.{json, toml, yaml, yml} in the following directories:
+If "--config" is not specified, Lakukan Drive will look for a configuration
+file named .lakukandrive.{json, toml, yaml, yml} in the following directories:
 
 - ./
 - $HOME/
-- /etc/filebrowser/
+- /etc/lakukandrive/
 
 The precedence of the configuration values are as follows:
 
@@ -348,7 +348,7 @@ func getServerSettings(v *viper.Viper, st *storage.Storage) (*settings.Server, e
 		log.Println("WARNING: Command Runner feature enabled!")
 		log.Println("WARNING: This feature has known security vulnerabilities and should not")
 		log.Println("WARNING: you fully understand the risks involved. For more information")
-		log.Println("WARNING: read https://github.com/filebrowser/filebrowser/issues/5199")
+		log.Println("WARNING: read https://github.com/lakukandrive/lakukandrive/issues/5199")
 	}
 
 	return server, nil

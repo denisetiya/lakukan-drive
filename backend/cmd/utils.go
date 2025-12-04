@@ -100,8 +100,8 @@ func initViper(cmd *cobra.Command) (*viper.Viper, error) {
 		}
 		v.AddConfigPath(".")
 		v.AddConfigPath(home)
-		v.AddConfigPath("/etc/filebrowser/")
-		v.SetConfigName(".filebrowser")
+		v.AddConfigPath("/etc/lakukandrive/")
+		v.SetConfigName(".lakukandrive")
 	} else {
 		v.SetConfigFile(cfgFile)
 	}
@@ -166,9 +166,9 @@ func withViperAndStore(fn func(cmd *cobra.Command, args []string, v *viper.Viper
 		case exists && options.expectsNoDatabase:
 			log.Fatal(path + " already exists")
 		case !exists && !options.expectsNoDatabase && !options.allowsNoDatabase:
-			log.Fatal(path + " does not exist. Please run 'filebrowser config init' first.")
+			log.Fatal(path + " does not exist. Please run 'lakukandrive config init' first.")
 		case !exists && !options.expectsNoDatabase:
-			log.Println("WARNING: filebrowser.db can't be found. Initialing in " + strings.TrimSuffix(path, "filebrowser.db"))
+			log.Println("WARNING: lakukandrive.db can't be found. Initialing in " + strings.TrimSuffix(path, "lakukandrive.db"))
 		}
 
 		log.Println("Using database: " + path)
