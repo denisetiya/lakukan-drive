@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # Monitoring and Maintenance Script for Lakukan Drive
@@ -195,3 +194,241 @@ check_mount_points() {
     if [ -d "$DATA_DIR" ]; then
         if ! touch "$DATA_DIR/.test_write" 2>/dev/null; then
             error "Cannot write to data directory"
+            send_alert "Cannot write to data directory" "CRITICAL"
+            mount_issues=true
+        else
+            rm -f "$DATA_DIR/.test_write"
+            info "Data directory is writable"
+        fi
+    fi
+    
+    if [ "$mount_issues" = true ]; then
+        return 1
+    fi
+    
+    return 0
+}
+
+check_network_connectivity() {
+    local connectivity_issues=false
+    
+    # Check DNS resolution
+    if ! nslookup google.com >/dev/null 2>&1; then
+        warning "DNS resolution is not working"
+        connectivity_issues=true
+    fi
+    
+    # Check external connectivity
+    if ! ping -c 1 8.8.8.8 >/dev/null 2>&1; then
+        warning "External connectivity is not working"
+        connectivity_issues=true
+    fi
+    
+    # Check if ports are accessible
+    if ! nc -z localhost 80 >/dev/null 2>&1; then
+        warning "Port 80 is not accessible"
+        connectivity_issues=true
+    fi
+    
+    if [ "$connectivity_issues" = true ]; then
+        send_alert "Network connectivity issues detected" "WARNING"
+        return 1
+    fi
+    
+    info "Network connectivity is working"
+    return 0
+}
+
+# Maintenance functions
+cleanup_temp_files() {
+    info "Cleaning up temporary files..."
+    
+    # Clean temp directories
+    find "$DATA_DIR/temp" -type f -mtime +1 -delete 2>/dev/null || true
+    find "$DATA_DIR/cache" -type f -mtime +7 -delete 2>/dev/null || true
+    find "$DATA_DIR/uploads/temp" -type f -mtime +1 -delete 2>/dev/null || true
+    
+    # Clean old logs
+    find "$LOG_DIR" -name "*.log" -mtime +30 -delete 2>/dev/null || true
+    
+    # Clean Docker
+    docker system prune -f >/dev/null 2>&1 || true
+    
+    info "Temporary files cleanup completed"
+}
+
+optimize_database() {
+    if [ -f "$DATA_DIR/database/lakukandrive.db" ]; then
+        info "Optimizing database..."
+        
+        # Create backup before optimization
+        cp "$DATA_DIR/database/lakukandrive.db" "$DATA_DIR/database/backups/lakukandrive_$(date +%Y%m%d_%H%M%S).db.backup"
+        
+        # Optimize SQLite database
+        sqlite3 "$DATA_DIR/database/lakukandrive.db" "VACUUM;" 2>/dev/null || true
+        
+        info "Database optimization completed"
+    fi
+}
+
+rotate_logs() {
+    info "Rotating logs..."
+    
+    # Rotate application logs
+    for log_file in "$LOG_DIR"/*.log; do
+        if [ -f "$log_file" ] && [ $(stat -f%z "$log_file" 2>/dev/null || stat -c%s "$log_file") -gt 10485760 ]; then
+            mv "$log_file" "${log_file}.$(date +%Y%m%d_%H%M%S)"
+            gzip "${log_file}.$(date +%Y%m%d_%H%M%S)" 2>/dev/null || true
+        fi
+    done
+    
+    # Rotate Docker logs
+    docker logs --tail=0 $(docker ps -q) 2>/dev/null || true
+    
+    info "Log rotation completed"
+}
+
+update_system() {
+    info "Checking for system updates..."
+    
+    # Check for security updates
+    if apt list --upgradable 2>/dev/null | grep -q security; then
+        warning "Security updates available"
+        send_alert "Security updates available" "INFO"
+    fi
+    
+    info "System update check completed"
+}
+
+# Health check and auto-repair functions
+health_check() {
+    local issues=0
+    
+    info "Starting comprehensive health check..."
+    
+    check_cpu_usage || ((issues++))
+    check_memory_usage || ((issues++))
+    check_disk_usage || ((issues++))
+    check_service_health || ((issues++))
+    check_mount_points || ((issues++))
+    check_network_connectivity || ((issues++))
+    
+    if [ $issues -eq 0 ]; then
+        info "Health check passed - all systems operational"
+        return 0
+    else
+        warning "Health check found $issues issues"
+        return 1
+    fi
+}
+
+auto_repair() {
+    info "Attempting auto-repair..."
+    
+    # Restart services if needed
+    if [ -f "$DEPLOY_DIR/docker-compose.prod.yml" ]; then
+        cd "$DEPLOY_DIR"
+        
+        if ! docker-compose -f docker-compose.prod.yml ps | grep -q "Up"; then
+            info "Restarting all services..."
+            docker-compose -f docker-compose.prod.yml restart
+            sleep 30
+        fi
+    fi
+    
+    # Remount if needed
+    if ! mountpoint -q "/mnt/$PROJECT_NAME" 2>/dev/null; then
+        info "Attempting to remount external storage..."
+        mount -a 2>/dev/null || true
+    fi
+    
+    # Clean up if disk space is low
+    local disk_usage
+    disk_usage=$(df "$DATA_DIR" | awk 'NR==2 {print $5}' | sed 's/%//')
+    if [ "$disk_usage" -gt 90 ]; then
+        info "Running emergency cleanup..."
+        cleanup_temp_files
+        docker system prune -a -f >/dev/null 2>&1 || true
+    fi
+    
+    info "Auto-repair completed"
+}
+
+# Report generation
+generate_report() {
+    local report_file="$LOG_DIR/daily-report-$(date +%Y%m%d).txt"
+    
+    {
+        echo "=== $PROJECT_NAME Daily Report - $(date) ==="
+        echo ""
+        echo "System Information:"
+        echo "  Uptime: $(uptime -p)"
+        echo "  Kernel: $(uname -r)"
+        echo "  OS: $(lsb_release -d | cut -f2)"
+        echo ""
+        echo "Resource Usage:"
+        echo "  CPU: $(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | sed 's/%us,//')%"
+        echo "  Memory: $(free | awk 'NR==2{printf "%.1f%%", $3*100/$2}')"
+        echo "  Disk: $(df "$DATA_DIR" | awk 'NR==2 {print $5}')"
+        echo ""
+        echo "Service Status:"
+        if [ -f "$DEPLOY_DIR/docker-compose.prod.yml" ]; then
+            cd "$DEPLOY_DIR"
+            docker-compose -f docker-compose.prod.yml ps
+        fi
+        echo ""
+        echo "Recent Alerts:"
+        tail -20 "$LOG_DIR/monitoring.log" 2>/dev/null || echo "No recent alerts"
+        echo ""
+        echo "=== End of Report ==="
+    } > "$report_file"
+    
+    info "Daily report generated: $report_file"
+}
+
+# Main execution
+main() {
+    local action="${1:-check}"
+    
+    case "$action" in
+        "check")
+            health_check
+            ;;
+        "repair")
+            auto_repair
+            ;;
+        "cleanup")
+            cleanup_temp_files
+            optimize_database
+            rotate_logs
+            ;;
+        "report")
+            generate_report
+            ;;
+        "full")
+            health_check
+            if [ $? -ne 0 ]; then
+                auto_repair
+                sleep 60
+                health_check
+            fi
+            cleanup_temp_files
+            optimize_database
+            rotate_logs
+            update_system
+            generate_report
+            ;;
+        *)
+            echo "Usage: $0 {check|repair|cleanup|report|full}"
+            echo "  check   - Run health check"
+            echo "  repair  - Attempt auto-repair"
+            echo "  cleanup - Run maintenance cleanup"
+            echo "  report  - Generate daily report"
+            echo "  full    - Run complete monitoring and maintenance"
+            exit 1
+            ;;
+    esac
+}
+
+# Execute main function with all arguments
+main "$@"

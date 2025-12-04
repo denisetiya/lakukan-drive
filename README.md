@@ -13,9 +13,6 @@ Lakukan Drive provides a file managing interface within a specified directory an
 - 🌐 **Multi-language**: Support for multiple languages
 - 📱 **Responsive**: Works on desktop and mobile devices
 
-## Documentation
-
-Documentation on how to install, configure, and use Lakukan Drive is available in the project documentation.
 
 ## Project Structure
 
