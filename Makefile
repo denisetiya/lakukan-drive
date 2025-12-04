@@ -1,7 +1,7 @@
 # Makefile for Lakukan Drive
 # This file provides convenient commands for development and deployment
 
-.PHONY: help build dev prod deploy clean test lint logs status
+.PHONY: help build dev prod deploy clean test lint logs status docker-build docker-build-local
 
 # Default target
 help: ## Show this help message
@@ -60,6 +60,69 @@ build-docker: ## Build Docker images
 	docker build -t lakukan-drive-frontend ./frontend
 	@echo "Building backend Docker image..."
 	docker build -t lakukan-drive-backend .
+
+docker-build: ## Build Docker images with custom tags
+	@read -p "Enter registry (default: ghcr.io/username): " registry; \
+	read -p "Enter version (default: latest): " version; \
+	read -p "Enter platform (default: linux/amd64): " platform; \
+	registry=$${registry:-ghcr.io/username}; \
+	version=$${version:-latest}; \
+	platform=$${platform:-linux/amd64}; \
+	echo "Building frontend image: $$registry/lakukan-drive-frontend:$$version"; \
+	docker build --platform $$platform -t $$registry/lakukan-drive-frontend:$$version ./frontend; \
+	echo "Building backend image: $$registry/lakukan-drive-backend:$$version"; \
+	docker build --platform $$platform -t $$registry/lakukan-drive-backend:$$version .; \
+	echo "Build completed successfully!"
+
+docker-build-local: ## Build Docker images locally for development
+	@echo "Building local Docker images..."
+	@echo "Building frontend image..."
+	docker build -t lakukan-drive-frontend:local ./frontend
+	@echo "Building backend image..."
+	docker build -t lakukan-drive-backend:local .
+	@echo "Local build completed!"
+	@echo "Run with: docker-compose -f docker-compose.local.yml up -d"
+
+docker-build-cache: ## Build Docker images with cache optimization
+	@echo "Building Docker images with cache..."
+	docker build \
+		--cache-from lakukan-drive-frontend:cache \
+		--build-arg BUILDKIT_INLINE_CACHE=1 \
+		-t lakukan-drive-frontend:cache \
+		./frontend
+	docker build \
+		--cache-from lakukan-drive-frontend:cache \
+		--build-arg BUILDKIT_INLINE_CACHE=1 \
+		-t lakukan-drive-frontend:latest \
+		./frontend
+	@echo "Cache build completed!"
+
+docker-push: ## Push Docker images to registry
+	@read -p "Enter registry (default: ghcr.io/username): " registry; \
+	read -p "Enter version (default: latest): " version; \
+	registry=$${registry:-ghcr.io/username}; \
+	version=$${version:-latest}; \
+	echo "Pushing images to $$registry..."; \
+	docker push $$registry/lakukan-drive-frontend:$$version; \
+	docker push $$registry/lakukan-drive-backend:$$version; \
+	echo "Push completed!"
+
+docker-tag: ## Tag Docker images with custom tags
+	@read -p "Enter source tag (default: latest): " source; \
+	read -p "Enter target tag: " target; \
+	source=$${source:-latest}; \
+	echo "Tagging lakukan-drive-frontend:$$source as lakukan-drive-frontend:$$target"; \
+	docker tag lakukan-drive-frontend:$$source lakukan-drive-frontend:$$target; \
+	echo "Tagging lakukan-drive-backend:$$source as lakukan-drive-backend:$$target"; \
+	docker tag lakukan-drive-backend:$$source lakukan-drive-backend:$$target; \
+	echo "Tagging completed!"
+
+docker-run-local: ## Run local Docker images
+	@echo "Running local Docker images..."
+	docker-compose -f docker-compose.local.yml up -d
+	@echo "Services started:"
+	@echo "  Frontend: http://localhost:3000"
+	@echo "  Backend:  http://localhost:8080"
 
 # Test commands
 test: ## Run all tests

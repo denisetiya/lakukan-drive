@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: lakukan-drive-frontend:local
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/vite.config.ts:/app/vite.config.ts
+      - ./frontend/tsconfig.json:/app/tsconfig.json
+    networks:
+      - lakukan-drive-network
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    image: lakukan-drive-backend:local
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./data:/srv
+      - ./config:/config
+      - ./database:/database
+      - ./logs/backend:/var/log/filebrowser
+    networks:
+      - lakukan-drive-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  lakukan-drive-network:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local
+  config:
+    driver: local
+  database:
+    driver: local
+  logs:
+    driver: local
