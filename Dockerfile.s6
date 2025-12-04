@@ -8,7 +8,7 @@ RUN mkdir -p /config /database /srv && \
   chown -R abc:abc /config /database /srv
 
 # Copy files and set permissions
-COPY filebrowser /bin/filebrowser
+COPY backend/filebrowser /bin/filebrowser
 COPY docker/common/ /
 COPY docker/s6/ /
 

@@ -9,8 +9,8 @@ builds:
   - env:
       - CGO_ENABLED=0
     ldflags:
-      - -s -w -X github.com/filebrowser/filebrowser/v2/version.Version={{ .Version }} -X github.com/filebrowser/filebrowser/v2/version.CommitSHA={{ .ShortCommit }}
-    main: main.go
+      - -s -w -X github.com/filebrowser/filebrowser/v2/backend/version.Version={{ .Version }} -X github.com/filebrowser/filebrowser/v2/backend/version.CommitSHA={{ .ShortCommit }}
+    main: backend/main.go
     binary: filebrowser
     goos:
       - darwin
