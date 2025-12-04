@@ -1,0 +1,555 @@
+/* Login Page Modern Styles */
+#login {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Background with animated shapes */
+.login__background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+  z-index: -1;
+}
+
+.login__bg-shapes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.login__shape {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  animation: float 6s ease-in-out infinite;
+}
+
+.login__shape--1 {
+  width: 300px;
+  height: 300px;
+  top: -150px;
+  right: -150px;
+  animation-delay: 0s;
+}
+
+.login__shape--2 {
+  width: 200px;
+  height: 200px;
+  bottom: -100px;
+  left: -100px;
+  animation-delay: 2s;
+}
+
+.login__shape--3 {
+  width: 150px;
+  height: 150px;
+  top: 50%;
+  left: 10%;
+  animation-delay: 4s;
+}
+
+/* Main container */
+.login__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+/* Glassmorphism card */
+.login__card {
+  background: rgba(17, 25, 40, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow-glass);
+  animation: slideUp 0.6s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.login__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--purple));
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* Header section */
+.login__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login__logo-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+.login__logo {
+  width: 5rem;
+  height: 5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-normal);
+  object-fit: contain;
+}
+
+.login__logo:hover {
+  transform: scale(1.05) rotate(5deg);
+}
+
+.login__logo-glow {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  background: radial-gradient(circle, rgba(102, 126, 234, 0.4), rgba(118, 75, 162, 0.2), transparent);
+  border-radius: var(--radius-lg);
+  z-index: -1;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.login__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login__subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Message styling */
+.login__message {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+.login__message--info {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: var(--blue);
+}
+
+.login__message--error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: var(--red);
+}
+
+.login__message-icon {
+  margin-right: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.login__message-content {
+  flex: 1;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Form styling */
+.login__form {
+  margin-bottom: 1.5rem;
+}
+
+.login__input-group {
+  margin-bottom: 1.25rem;
+}
+
+.login__input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login__input-icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  z-index: 2;
+  transition: color var(--transition-fast);
+}
+
+.login__input {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.login__input::placeholder {
+  color: var(--text-muted);
+}
+
+.login__input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.login__input:focus + .login__input-border {
+  transform: scaleX(1);
+}
+
+.login__input-border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--purple));
+  transform: scaleX(0);
+  transition: transform var(--transition-fast);
+  transform-origin: left;
+}
+
+/* Button styling */
+.login__button {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  border: none;
+  border-radius: var(--radius-md);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+  outline: none;
+}
+
+.login__button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.login__button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login__button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.login__button-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.login__button:hover:not(:disabled) .login__button-shine {
+  left: 100%;
+}
+
+.login__button-text {
+  position: relative;
+  z-index: 2;
+}
+
+/* Loading spinner */
+.login__spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.login__spinner-dot {
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.login__spinner-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.login__spinner-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.login__spinner-dot:nth-child(3) {
+  animation-delay: 0s;
+}
+
+/* Recaptcha */
+.login__recaptcha {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+#login.recaptcha .login__recaptcha {
+  min-height: 78px;
+}
+
+#recaptcha {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* Toggle mode */
+.login__toggle {
+  text-align: center;
+  margin-top: 1.5rem;
+  animation: slideUp 0.6s ease-out 0.7s both;
+}
+
+.login__toggle-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  transform: translateY(0);
+}
+
+.login__toggle-text:hover {
+  color: var(--blue);
+  transform: translateY(-2px);
+}
+
+.login__toggle-icon {
+  font-size: 1.1rem;
+  transition: all var(--transition-fast);
+}
+
+.login__toggle:hover .login__toggle-icon {
+  transform: rotate(5deg) scale(1.1);
+}
+
+/* Enhanced signup mode styling */
+.login__input-wrapper:has(input[type="password"]:nth-of-type(2)) .login__input-icon {
+  color: var(--purple);
+}
+
+/* Animation delays for form inputs */
+.login__input-group:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.login__input-group:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.login__input-group:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.login__input-group:nth-child(4) {
+  animation-delay: 0.5s;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-20px) rotate(120deg);
+  }
+  66% {
+    transform: translateY(10px) rotate(240deg);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .login__card {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+  
+  .login__title {
+    font-size: 1.75rem;
+  }
+  
+  .login__shape--1 {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .login__shape--2 {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .login__shape--3 {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-height: 600px) {
+  .login__container {
+    padding: 0.5rem;
+  }
+  
+  .login__card {
+    padding: 1.5rem;
+  }
+}
+
+/* Legacy compatibility */
+#login img {
+  width: 5em;
+  height: 5em;
+  margin: 0 auto;
+  display: block;
+  object-fit: contain;
+}
+
+#login h1 {
+  text-align: center;
+  font-size: 2.5em;
+  margin: 0.4em 0 0.67em;
+}
+
+#login p {
+  cursor: pointer;
+  text-align: center;
+  color: var(--blue);
+  text-transform: lowercase;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+#login .wrong {
+  background: var(--red);
+  color: #fff;
+  padding: 0.5em;
+  text-align: center;
+  animation: 0.2s opac forwards;
+}
+
+#login .logout-message {
+  background: var(--icon-orange);
+  color: #fff;
+  padding: 0.5em;
+  text-align: center;
+  animation: 0.2s opac forwards;
+  text-transform: none;
+}
+
+@keyframes opac {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

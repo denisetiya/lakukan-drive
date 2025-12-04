@@ -1,0 +1,87 @@
+:root {
+  /* Modern color palette with gradients */
+  --blue: #667eea;
+  --dark-blue: #5a67d8;
+  --light-blue: #7c9eff;
+  --purple: #764ba2;
+  --pink: #f093fb;
+  --red: #f44336;
+  --dark-red: #d32f2f;
+  --moon-grey: #f2f2f2;
+
+  /* Enhanced icon colors */
+  --icon-red: #ff6b6b;
+  --icon-orange: #ff9f43;
+  --icon-yellow: #ffd93d;
+  --icon-green: #6bcf7f;
+  --icon-blue: #4dabf7;
+  --icon-violet: #9b59b6;
+  --icon-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  /* Input colors */
+  --input-red: rgba(255, 107, 107, 0.1);
+  --input-green: rgba(107, 207, 127, 0.1);
+
+  --item-selected: white;
+  --action: rgb(84, 110, 122);
+
+  /* Background colors with modern feel */
+  --background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --surfacePrimary: rgba(255, 255, 255, 0.95);
+  --surfaceSecondary: rgba(248, 249, 250, 0.8);
+  --glass-background: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.18);
+
+  /* Text colors */
+  --text-primary: #2d3748;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+
+  /* Modern borders and dividers */
+  --divider: rgba(0, 0, 0, 0.05);
+  --borderPrimary: rgba(255, 255, 255, 0.2);
+  --borderSecondary: rgba(255, 255, 255, 0.3);
+  --dividerPrimary: rgba(255, 255, 255, 0.4);
+  --dividerSecondary: rgba(255, 255, 255, 0.9);
+
+  /* Shadow effects */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+
+  /* Animation durations */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* Border radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+}
+
+:root.dark {
+  --input-red: rgb(115, 48, 45);
+  --input-green: rgb(20, 122, 65);
+
+  --action: rgb(255, 255, 255);
+
+  --background: rgb(20, 29, 36);
+  --surfacePrimary: rgb(32, 41, 47);
+  --surfaceSecondary: rgb(58, 65, 71);
+  --text-primary: rgba(255, 255, 255, 0.6);
+  --text-secondary: rgba(255, 255, 255, 0.87);
+  --divider: rgba(255, 255, 255, 0.12);
+  --iconPrimary: rgb(255, 255, 255);
+  --iconSecondary: rgb(255, 255, 255);
+  --iconTertiary: rgb(255, 255, 255);
+  --hover: rgba(255, 255, 255, 0.1);
+  --borderPrimary: rgba(255, 255, 255, 0.05);
+  --borderSecondary: rgba(255, 255, 255, 0.15);
+  --dividerPrimary: rgba(30, 30, 30, 0.4);
+  --dividerSecondary: rgba(30, 30, 30, 0.6);
+}
