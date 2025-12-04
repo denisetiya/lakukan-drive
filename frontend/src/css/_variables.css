@@ -36,6 +36,16 @@
   --text-primary: #2d3748;
   --text-secondary: #4a5568;
   --text-muted: #718096;
+  --textPrimary: var(--text-primary);
+  --textSecondary: var(--text-secondary);
+  --textMuted: var(--text-muted);
+
+  /* Icon colors and hover accents */
+  --iconPrimary: #3c366b;
+  --iconSecondary: #ffffff;
+  --iconTertiary: #a0aec0;
+  --hover: rgba(102, 126, 234, 0.12);
+  --card-border: rgba(102, 126, 234, 0.16);
 
   /* Modern borders and dividers */
   --divider: rgba(0, 0, 0, 0.05);
@@ -75,13 +85,17 @@
   --surfaceSecondary: rgb(58, 65, 71);
   --text-primary: rgba(255, 255, 255, 0.6);
   --text-secondary: rgba(255, 255, 255, 0.87);
-  --divider: rgba(255, 255, 255, 0.12);
+  --textPrimary: var(--text-primary);
+  --textSecondary: var(--text-secondary);
+  --textMuted: rgba(255, 255, 255, 0.65);
   --iconPrimary: rgb(255, 255, 255);
   --iconSecondary: rgb(255, 255, 255);
-  --iconTertiary: rgb(255, 255, 255);
-  --hover: rgba(255, 255, 255, 0.1);
+  --iconTertiary: rgba(255, 255, 255, 0.6);
+  --divider: rgba(255, 255, 255, 0.12);
+  --hover: rgba(255, 255, 255, 0.08);
   --borderPrimary: rgba(255, 255, 255, 0.05);
   --borderSecondary: rgba(255, 255, 255, 0.15);
   --dividerPrimary: rgba(30, 30, 30, 0.4);
   --dividerSecondary: rgba(30, 30, 30, 0.6);
+  --card-border: rgba(255, 255, 255, 0.08);
 }

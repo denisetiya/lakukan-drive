@@ -18,7 +18,13 @@
     display: none;
   }
   #listing.list .item .name {
-    width: 60%;
+    width: auto;
+  }
+  #listing.list .item {
+    grid-template-columns: 3.5em minmax(0, 1fr) minmax(150px, 32%);
+  }
+  #listing.list .item div:last-of-type {
+    grid-template-columns: minmax(0, 1fr) minmax(150px, auto);
   }
   #more {
     display: inherit;
@@ -103,6 +109,8 @@
     box-shadow: 0 0 5px var(--borderPrimary);
     transition: 0.1s ease left;
     left: -17em;
+    border-radius: 0;
+    border: 0;
   }
 
   html[dir="rtl"] nav {
@@ -166,6 +174,12 @@
     display: none;
   }
   #listing.list .item .name {
-    width: 100%;
+    width: auto;
+  }
+  #listing.list .item {
+    grid-template-columns: 3.5em minmax(0, 1fr);
+  }
+  #listing.list .item div:last-of-type {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
