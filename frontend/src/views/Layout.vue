@@ -31,7 +31,7 @@ import Prompts from "@/components/prompts/Prompts.vue";
 import Shell from "@/components/Shell.vue";
 import UploadFiles from "@/components/prompts/UploadFiles.vue";
 import { enableExec } from "@/utils/constants";
-import { computed, watch } from "vue";
+import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const layoutStore = useLayoutStore();
@@ -39,10 +39,16 @@ const authStore = useAuthStore();
 const fileStore = useFileStore();
 const uploadStore = useUploadStore();
 const route = useRoute();
+const previousSelectedCount = ref<number>(0);
 
 const sentPercent = computed(() =>
   ((uploadStore.sentBytes / uploadStore.totalBytes) * 100).toFixed(2)
 );
+
+const syncMultiplePadding = (active: boolean) => {
+  const app = document.getElementById("app");
+  app?.classList.toggle("multiple", active);
+};
 
 watch(route, () => {
   fileStore.selected = [];
@@ -50,5 +56,25 @@ watch(route, () => {
   if (layoutStore.currentPromptName !== "success") {
     layoutStore.closeHovers();
   }
+});
+
+watch(
+  () => fileStore.multiple,
+  (active) => syncMultiplePadding(active),
+  { immediate: true }
+);
+
+watch(
+  () => fileStore.selectedCount,
+  (count) => {
+    if (fileStore.multiple && previousSelectedCount.value > 0 && count === 0) {
+      fileStore.multiple = false;
+    }
+    previousSelectedCount.value = count;
+  }
+);
+
+onBeforeUnmount(() => {
+  syncMultiplePadding(false);
 });
 </script>

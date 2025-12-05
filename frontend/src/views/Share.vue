@@ -270,7 +270,7 @@
             >
               <p>{{ t("files.multipleSelectionEnabled") }}</p>
               <div
-                @click="() => (fileStore.multiple = false)"
+                @click="disableMultipleSelection"
                 tabindex="0"
                 role="button"
                 :data-title="t('buttons.clear')"
@@ -424,18 +424,24 @@ const fetchData = async () => {
   }
 };
 
+const disableMultipleSelection = () => {
+  fileStore.multiple = false;
+  fileStore.selected = [];
+};
+
 const keyEvent = (event: KeyboardEvent) => {
   if (event.key === "Escape") {
     // If we're on a listing, unselect all
     // files and folders.
-    if (fileStore.selectedCount > 0) {
-      fileStore.selected = [];
-    }
+    disableMultipleSelection();
   }
 };
 
 const toggleMultipleSelection = () => {
   fileStore.toggleMultiple();
+  if (!fileStore.multiple) {
+    fileStore.selected = [];
+  }
 };
 
 const isSingleFile = () =>

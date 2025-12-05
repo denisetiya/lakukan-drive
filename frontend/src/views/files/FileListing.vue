@@ -314,7 +314,7 @@
         <div :class="{ active: fileStore.multiple }" id="multiple-selection">
           <p>{{ t("files.multipleSelectionEnabled") }}</p>
           <div
-            @click="() => (fileStore.multiple = false)"
+            @click="disableMultipleSelection"
             tabindex="0"
             role="button"
             :title="t('buttons.clear')"
@@ -534,6 +534,11 @@ onBeforeUnmount(() => {
 
 const base64 = (name: string) => Base64.encodeURI(name);
 
+const disableMultipleSelection = () => {
+  fileStore.multiple = false;
+  fileStore.selected = [];
+};
+
 const keyEvent = (event: KeyboardEvent) => {
   // No prompts are shown
   if (layoutStore.currentPrompt !== null) {
@@ -541,8 +546,8 @@ const keyEvent = (event: KeyboardEvent) => {
   }
 
   if (event.key === "Escape") {
-    // Reset files selection.
-    fileStore.selected = [];
+    // Reset files selection and leave multiple selection mode.
+    disableMultipleSelection();
   }
 
   if (event.key === "Delete") {
@@ -904,6 +909,9 @@ const openSearch = () => {
 
 const toggleMultipleSelection = () => {
   fileStore.toggleMultiple();
+  if (!fileStore.multiple) {
+    fileStore.selected = [];
+  }
   layoutStore.closeHovers();
 };
 

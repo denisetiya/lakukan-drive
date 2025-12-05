@@ -27,8 +27,8 @@ const resolve = {
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   if (command === "serve") {
-    const backendUrl = process.env.BACKEND_URL || "http://backend:8080";
-    const backendWsUrl = process.env.BACKEND_WS_URL || "ws://backend:8080";
+    const backendUrl = process.env.BACKEND_URL || "http://127.0.0.1:8080";
+    const backendWsUrl = process.env.BACKEND_WS_URL || "ws://127.0.0.1:8080";
 
     // Debug logging
     console.log("Environment variables:");
