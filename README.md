@@ -44,6 +44,7 @@ docker run -d \
   -p 8080:80 \
   -v /path/to/your/files:/srv \
   lakukandrive/lakukandrive:latest
+  --d name/lakukan/drive
 ```
 
 ### Building from Source

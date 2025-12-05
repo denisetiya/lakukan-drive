@@ -1,12 +1,16 @@
-version: '3.8'
-
 services:
   frontend:
-    image: lakukan-drive-frontend:local
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "3000:80"
+      - "5173:5173"
     environment:
       - NODE_ENV=development
+      - BACKEND_URL=http://backend:8080
+      - BACKEND_WS_URL=ws://backend:8080
+    # Debug: Add logging to see what's happening
+    command: ["sh", "-c", "echo \"Backend URL: $$BACKEND_URL\" && echo \"Backend WS URL: $$BACKEND_WS_URL\" && pnpm dev --host 0.0.0.0"]
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/public:/app/public
@@ -19,16 +23,19 @@ services:
     restart: unless-stopped
 
   backend:
-    image: lakukan-drive-backend:local
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
-      - "8080:80"
+      - "8080:8080"
     environment:
       - NODE_ENV=development
+    command: ["sh", "-c", "mkdir -p /srv /config /database /var/log/filebrowser && exec ./filebrowser --address 0.0.0.0"]
     volumes:
-      - ./data:/srv
-      - ./config:/config
-      - ./database:/database
-      - ./logs/backend:/var/log/filebrowser
+      - ./drive/data:/srv
+      - ./drive/config:/config
+      - ./drive/database:/database
+      - ./drive/logs/backend:/var/log/filebrowser
     networks:
       - lakukan-drive-network
     restart: unless-stopped
@@ -42,13 +49,3 @@ services:
 networks:
   lakukan-drive-network:
     driver: bridge
-
-volumes:
-  data:
-    driver: local
-  config:
-    driver: local
-  database:
-    driver: local
-  logs:
-    driver: local

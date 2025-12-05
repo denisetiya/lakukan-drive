@@ -27,16 +27,28 @@ const resolve = {
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   if (command === "serve") {
+    const backendUrl = process.env.BACKEND_URL || "http://backend:8080";
+    const backendWsUrl = process.env.BACKEND_WS_URL || "ws://backend:8080";
+
+    // Debug logging
+    console.log("Environment variables:");
+    console.log("BACKEND_URL:", process.env.BACKEND_URL);
+    console.log("BACKEND_WS_URL:", process.env.BACKEND_WS_URL);
+    console.log("Using backend URL:", backendUrl);
+    console.log("Using backend WS URL:", backendWsUrl);
+
     return {
       plugins,
       resolve,
       server: {
+        host: "0.0.0.0",
+        allowedHosts: ["drive.lakukan.co.id", "localhost", "127.0.0.1"],
         proxy: {
           "/api/command": {
-            target: "ws://127.0.0.1:8080",
+            target: backendWsUrl,
             ws: true,
           },
-          "/api": "http://127.0.0.1:8080",
+          "/api": backendUrl,
         },
       },
     };
@@ -50,6 +62,13 @@ export default defineConfig(({ command }) => {
         rollupOptions: {
           input: {
             index: path.resolve(__dirname, "./public/index.html"),
+          },
+          external: (id) => {
+            // Keep reCAPTCHA script external - it will be loaded at runtime
+            return (
+              id.includes("recaptcha/api.js") ||
+              id.includes("[{[ .ReCaptchaHost ]}]")
+            );
           },
           output: {
             manualChunks: (id) => {
